@@ -1,29 +1,28 @@
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reader {
 
-    public void Read(String routeArchive){
-
+    public static List<String[]> readCSV(String routeArchive) {
+        List<String[]> datos = new ArrayList<>();
         String line;
-        
-        try(BufferedReader bf = new BufferedReader(
-            new InputStreamReader(new FileInputStream(routeArchive), StandardCharsets.UTF_8))){
-            
-            // Encabezados
-            System.out.printf("%-10s %-6s %-35s %5s %7s%n", 
-                  "Codigo", "Sexo", "Nombre", "Edad", "Ciudad");
-            System.out.println("--------------------------------------------------------------------------");
 
-            while ((line = bf.readLine()) != null){
-                String [] values = line.split(",");
+        try (BufferedReader bf = new BufferedReader(
+                new InputStreamReader(new FileInputStream(routeArchive), StandardCharsets.UTF_8))) {
+
+            // bf.readLine(); // Descomentar si quieres ignorar encabezados
+
+            while ((line = bf.readLine()) != null) {
+                String[] values = line.split(",");
+                datos.add(values); // Guardar la fila
             }
-        }catch(IOException e){
-            System.out.println("Error al leer el archivo");
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
         }
 
+        return datos;
     }
 }
