@@ -2,10 +2,15 @@ import java.util.*;
 
 
 public class Main {
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         
         List<String[]> datos = Reader.readCSV("CSV/chicos - chicos.csv");
         List<Integer> ciudadInt = new ArrayList<>();
+        List<Integer> edadInt = new ArrayList<>();
+        List<Character> sexoArray = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("************************************");
@@ -37,8 +42,59 @@ public class Main {
             case 'b':
 
             ////////////////////////////////////////////////////////////////////////Tabla de grupos
-            
-                        
+                    int contadorG1 = 0;
+                    int contadorG2 = 0;
+                    int contadorG3 = 0;
+                    int contMaleG1 = 0;
+                    int contFemaleG1 = 0;
+                    int contMaleG2 = 0;
+                    int contFemaleG2 = 0;
+                    int contMaleG3 = 0;
+                    int contFemaleG3 = 0;
+                    
+                    for(String[] columna : datos){
+                        String edad = columna[3];
+                        edadInt.add(Integer.parseInt(edad));
+                        String sexo = columna[1];
+                        sexoArray.add(sexo.charAt(0));
+                    }
+
+                    for(int i = 0; i < edadInt.size(); i++){
+                        if (edadInt.get(i) <=  5){
+
+                            if(sexoArray.get(i) == 'F'){
+                                contFemaleG1 += 1;
+                            }else{
+                                contMaleG1 += 1;
+                            }   contadorG1 += 1;
+
+                        }else if(edadInt.get(i) > 5 && edadInt.get(i) <= 10){
+
+                            if(sexoArray.get(i) == 'F'){
+                                contFemaleG2 += 1;
+                            }else{
+                                contMaleG2 += 1;
+                            }   contadorG2 += 1;
+
+                        }else if(edadInt.get(i) > 10){
+                            if(sexoArray.get(i) == 'F'){
+                                contFemaleG3 += 1;
+                            }else{
+                                contMaleG3 += 1;
+                            }   contadorG3 += 1;
+                        }
+                    }
+                    System.out.printf("%-20s %10s %10s %10s%n", "Grupo", "Porcentaje", "Mujeres", "Hombres");
+                    System.out.println("-----------------------------------------------------------");
+                    System.out.printf("%-20s %9.2f%%%10d%10d%n", 
+                            "Menores a 5 años", (contadorG1 * 100.0) / edadInt.size(), contFemaleG1, contMaleG1);
+                    System.out.printf("%-20s %9.2f%%%10d%10d%n", 
+                    "6 - 10 años", (contadorG2 * 100.0) / edadInt.size(), contFemaleG2, contMaleG2);
+                    System.out.printf("%-20s %9.2f%%%10d%10d%n", 
+                    "11 años en adelante", (contadorG3 * 100.0) / edadInt.size(), contFemaleG3, contMaleG3);
+
+
+                    
             
                     
              /////////////////////////////////////////////////////////////////////// Porcentajes

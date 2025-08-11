@@ -12,8 +12,6 @@ public class Reader {
         try (BufferedReader bf = new BufferedReader(
                 new InputStreamReader(new FileInputStream(routeArchive), StandardCharsets.UTF_8))) {
 
-            // bf.readLine(); // Descomentar si quieres ignorar encabezados
-
             while ((line = bf.readLine()) != null) {
                 String[] values = line.split(",");
                 datos.add(values); // Guardar la fila
