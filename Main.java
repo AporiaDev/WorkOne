@@ -7,16 +7,12 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        List<String[]> datos = Reader.readCSV("CSV/chicos - chicos.csv");
-        List<Integer> ciudadInt = new ArrayList<>();
-        List<Integer> edadInt = new ArrayList<>();
-        List<Character> sexoArray = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("************************************");
         System.out.println("*                                  *");
         System.out.println("*         Menú Principal           *");
-        System.out.println("*   Equipo: XX Nombre: Tu nombre   *");
+        System.out.println("*   Equipo: 0 Nombre: Bryan Silv   *");
         System.out.println("*                                  *");
         System.out.println("************************************");
         System.out.println("*     a.   Cargar Datos.           *");
@@ -27,131 +23,104 @@ public class Main {
 
         char option = sc.next().charAt(0);
         while(option != 'd'){
-           
-            switch (option) {
+
+            switch (option){
                 case 'a':
-                    System.out.printf("%-10s %-6s %-35s %5s %7s%n",
-                        "Codigo", "Sexo", "Nombre", "Edad", "Ciudad");
-                    System.out.println("--------------------------------------------------------------------------");
-                    for (String[] columna : datos) {
-                        System.out.printf("%-10s %-6s %-35s %5s %7s%n",
-                            columna[0], columna[1], columna[2], columna[3], columna[4]);
-                        }
+                    DataTable tabla = new DataTable();
+                    tabla.Tabla();
                 break;
 
-            case 'b':
+                case 'b':
+                    System.out.print(
+                                "Ingrese la tabla que desea verificar: \n" +
+                                "1. Grupos por edad \n" +
+                                "2. Porcentajes en ciudades \n" +
+                                "Seleccione una opción: "
+                                    );
+                    int optionInter = sc.nextInt();
+                    sc.nextLine();
 
-            ////////////////////////////////////////////////////////////////////////Tabla de grupos
-                    int contadorG1 = 0;
-                    int contadorG2 = 0;
-                    int contadorG3 = 0;
-                    int contMaleG1 = 0;
-                    int contFemaleG1 = 0;
-                    int contMaleG2 = 0;
-                    int contFemaleG2 = 0;
-                    int contMaleG3 = 0;
-                    int contFemaleG3 = 0;
-                    
-                    for(String[] columna : datos){
-                        String edad = columna[3];
-                        edadInt.add(Integer.parseInt(edad));
-                        String sexo = columna[1];
-                        sexoArray.add(sexo.charAt(0));
+                    PercentajeControl contr = new PercentajeControl();
+                    if(optionInter == 1){
+                        contr.ControlGrupos();
+                    }else{
+                        contr.ControlCiudades();
                     }
 
-                    for(int i = 0; i < edadInt.size(); i++){
-                        if (edadInt.get(i) <=  5){
+                break;
 
-                            if(sexoArray.get(i) == 'F'){
-                                contFemaleG1 += 1;
-                            }else{
-                                contMaleG1 += 1;
-                            }   contadorG1 += 1;
+                case 'c':
 
-                        }else if(edadInt.get(i) > 5 && edadInt.get(i) <= 10){
+                    System.out.println("=== MENÚ CSV ===");
+                    System.out.println("1. Agregar datos");
+                    System.out.println("2. Editar datos");
+                    System.out.println("3. Eliminar datos");
+                    System.out.print("Seleccione una opción: ");
+        
+                    int opcion = sc.nextInt();
+                    sc.nextLine();
 
-                            if(sexoArray.get(i) == 'F'){
-                                contFemaleG2 += 1;
-                            }else{
-                                contMaleG2 += 1;
-                            }   contadorG2 += 1;
+                    if (opcion == 1) {
+                        AgregarDataCSV valu = new AgregarDataCSV();
+                        System.out.print("Ingrese los datos nuevos, separados por comas: ");
+                        String data = sc.nextLine();
+                        valu.agregar(data);
+                    } 
+                    else if (opcion == 2) {
 
-                        }else if(edadInt.get(i) > 10){
-                            if(sexoArray.get(i) == 'F'){
-                                contFemaleG3 += 1;
-                            }else{
-                                contMaleG3 += 1;
-                            }   contadorG3 += 1;
-                        }
-                    }
-                    System.out.printf("%-20s %10s %10s %10s%n", "Grupo", "Porcentaje", "Mujeres", "Hombres");
-                    System.out.println("-----------------------------------------------------------");
-                    System.out.printf("%-20s %9.2f%%%10d%10d%n", 
-                            "Menores a 5 años", (contadorG1 * 100.0) / edadInt.size(), contFemaleG1, contMaleG1);
-                    System.out.printf("%-20s %9.2f%%%10d%10d%n", 
-                    "6 - 10 años", (contadorG2 * 100.0) / edadInt.size(), contFemaleG2, contMaleG2);
-                    System.out.printf("%-20s %9.2f%%%10d%10d%n", 
-                    "11 años en adelante", (contadorG3 * 100.0) / edadInt.size(), contFemaleG3, contMaleG3);
-
-
-                    
-            
-                    
-             /////////////////////////////////////////////////////////////////////// Porcentajes
-                    int contBucaramanga = 0;
-                    int contGiron = 0;
-                    int contFloridablanca= 0;  
-                    int contPiedecuesta = 0;
-                    int contOtros = 0;
-
-                    for (String[] columna : datos) {
-                        String ciudad = columna[4]; // Columna "Ciudad"
-                        ciudadInt.add(Integer.parseInt(ciudad));
-                    }
-                    for(int i = 0 ; i < ciudadInt.size(); i++){
+                        Edit editar = new Edit();
                         
-                        if(ciudadInt.get(i) == 1){
-                            contBucaramanga += 1;
-                        }else if(ciudadInt.get(i) == 2){
-                            contGiron += 1;
-                        }else if(ciudadInt.get(i) == 3){
-                            contFloridablanca += 1;
-                        }else if(ciudadInt.get(i) == 4){
-                            contPiedecuesta += 1;
-                        }else{
-                            contOtros += 1;
-                        }
+                        System.out.print("Ingrese el código: ");
+                        String codigo = sc.nextLine();
 
+                        System.out.print("Ingrese el sexo (M/F): ");
+                        String sexo = sc.nextLine();
+
+                        System.out.print("Ingrese el nombre: ");
+                        String nombre = sc.nextLine();
+
+                        System.out.print("Ingrese la edad: ");
+                        String edad = sc.nextLine();
+
+                        System.out.print("Ingrese la zona/ciudad: ");
+                        String zona = sc.nextLine();
+
+                        editar.editar(codigo,sexo,nombre,edad,zona);
+                    } 
+                    else if (opcion == 3) {
+                        Eliminar limpiar = new Eliminar();
+                        System.out.print("Ingrese el código a eliminar: ");
+                        String codigo = sc.nextLine();
+                        limpiar.clean(codigo);
+                    } 
+                    else {
+                        System.out.println("Opción inválida.");
                     }
-
-                    System.out.printf("%-15s %10s%n", "Ciudad", "Porcentaje");
-                    System.out.println("----------------------------------");
-                    System.out.printf("%-15s %9.2f%%%n", "Bucaramanga", (contBucaramanga * 100.0) / ciudadInt.size());
-                    System.out.printf("%-15s %9.2f%%%n", "Giron", (contGiron * 100.0) / ciudadInt.size());
-                    System.out.printf("%-15s %9.2f%%%n", "Floridablanca", (contFloridablanca * 100.0) / ciudadInt.size());
-                    System.out.printf("%-15s %9.2f%%%n", "Piedecuesta", (contPiedecuesta * 100.0) / ciudadInt.size());
-                    System.out.printf("%-15s %9.2f%%%n", "Otros", (contOtros * 100.0) / ciudadInt.size());
-                
-                ////////////////////////////////////////////////////////////////////
-
                 break;
-            case 'c':
-                
+            case 'd':
+                Save guardar = new Save();
+                guardar.save();
                 break;
-
             default:
 
                 break;
             
         }
+        System.out.println("************************************");
+        System.out.println("*                                  *");
+        System.out.println("*         Menú Principal           *");
+        System.out.println("*   Equipo: 0 Nombre: Bryan Silv   *");
+        System.out.println("*                                  *");
+        System.out.println("************************************");
+        System.out.println("*     a.   Cargar Datos.           *");
+        System.out.println("*     b.   Informe Especial.       *");
+        System.out.println("*     c.   Operaciones             *");
+        System.out.println("*     d.   Salir                   *");
+        System.out.println("************************************");
+
         option = sc.next().charAt(0);
-
-
-
-}
-
-        
-
-
+       
+        }
+        sc.close();
     }
 }

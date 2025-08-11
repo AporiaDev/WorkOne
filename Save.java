@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Save extends Reader {
     
-    public void save (String routeArchive){
+    public void save (){
    
-    List<String[]> datos = readCSV(routeArchive);
+    List<String[]> datos = Reader.readCSV("CSV/chicos - chicos.csv");
 
       try (PrintWriter pw = new PrintWriter(
-                new OutputStreamWriter(new FileOutputStream(routeArchive), StandardCharsets.UTF_8))) {
+                new OutputStreamWriter(new FileOutputStream("CSV/chicos - chicos.csv"), StandardCharsets.UTF_8))) {
             for (String[] fila : datos) {
                 pw.println(String.join(",", fila));
             }

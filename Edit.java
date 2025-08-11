@@ -3,15 +3,8 @@ import java.util.*;
 
 public class Edit extends Reader {
 
-    public List<String[]> editar(String routeArchive){
-        List<String[]> datos = readCSV(routeArchive);
-        Scanner scanner = new Scanner(System.in);
-
-        String codigo = scanner.nextLine();
-        String sexo = scanner.nextLine();
-        String nombre = scanner.nextLine();
-        String edad = scanner.nextLine();
-        String zona = scanner.nextLine();
+    public List<String[]> editar(String codigo, String sexo, String nombre, String edad, String zona){
+        List<String[]> datos = Reader.readCSV("CSV/chicos - chicos.csv");
 
         for(String[] fila : datos){
             if(fila[0].equals(codigo)){
