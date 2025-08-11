@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Save extends Reader {
     
-    public void save (){
+    public void save(){
    
     List<String[]> datos = Reader.readCSV("CSV/chicos - chicos.csv");
 
